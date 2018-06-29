@@ -7,7 +7,10 @@
 # greetz: ROOTCON goons and baby jim trevor                      #
 ##################################################################
 
-import sys, http.server, socketserver, cgi, logging
+import sys, http.server, socketserver, cgi, logging, time
+
+currenttime = time.strftime("%Y-%m-%d.%H:%M:%S.%Z", time.localtime())
+logging.basicConfig(filename='http_' + currenttime + '.log',level=logging.DEBUG)
 
 print("""
   _  _                   ___
@@ -19,11 +22,11 @@ print("""
 class ServerHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        logging.error(self.headers)
+        logging.info(self.headers)
         http.server.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
-        logging.error(self.headers)
+        logging.info(self.headers)
         form = cgi.FieldStorage(
             fp=self.rfile,
             headers=self.headers,
@@ -31,7 +34,7 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
                      'CONTENT_TYPE':self.headers['Content-Type'],
                      })
         for item in form.list:
-            logging.error(item)
+            logging.info(item)
         http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 def usage():
