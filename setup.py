@@ -9,7 +9,7 @@
 
 import sys, http.server, socketserver, cgi, logging, time
 
-currenttime = time.strftime("%Y-%m-%d.%H:%M:%S.%Z", time.localtime())
+currenttime = time.strftime("%Y-%m-%d.%H-%M-%S.%Z", time.localtime())
 logging.basicConfig(filename='http_' + currenttime + '.log',level=logging.DEBUG)
 
 print("""
@@ -22,6 +22,7 @@ print("""
 class ServerHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
+        logging.info(self.client_address[0]) 
         logging.info(self.headers)
         http.server.SimpleHTTPRequestHandler.do_GET(self)
 
