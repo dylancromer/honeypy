@@ -11,6 +11,7 @@ import sys, http.server, socketserver, cgi, logging, time
 
 currenttime = time.strftime("%Y-%m-%d.%H-%M-%S.%Z", time.localtime())
 logging.basicConfig(filename='http_' + currenttime + '.log',level=logging.DEBUG)
+sys.stderr = open('shttph_' + currenttime + '.log', 'w', buffer)
 
 print("""
   _  _                   ___
